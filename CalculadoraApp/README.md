@@ -1,50 +1,215 @@
-# Welcome to your Expo app 👋
+# bruno-maciel-pami2
+# 1. Planejar o que o app precisa fazer
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Antes de codar, você pensa:
 
-## Get started
+-   Mostrar um **display** (onde aparece o cálculo)
+-   Ter vários **botões** (números, operadores, limpar, etc.)
+-   Quando clicar:
+    -   Atualizar a expressão
+    -   Calcular o resultado
 
-1. Install dependencies
+----------
 
-   ```bash
-   npm install
-   ```
+#  2. Criar a estrutura básica do componente
 
-2. Start the app
+Você começa com um componente funcional e os estados:
 
-   ```bash
-   npx expo start
-   ```
+export  default  function  Index() {  
+  const [expressao, setExpressao] =  useState<string>('');  
+  const [resultado, setResultado] =  useState<string>('0');
 
-In the output, you'll find options to open the app in a
+ Aqui você define:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+-   `expressao`: o que o usuário está digitando (ex: `2+3`)
+-   `resultado`: o que aparece na tela
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+----------
 
-## Get a fresh project
+#  3. Definir os botões do teclado
 
-When you're ready, run:
+Você cria uma matriz com os botões:
 
-```bash
-npm run reset-project
-```
+const  linhasDeBotoes  = [  
+ ['C', '(', ')', '÷'],  
+ ['7', '8', '9', 'x'],  
+ ['4', '5', '6', '-'],  
+ ['1', '2', '3', '+'],  
+ ['0', '.', '⌫', '=']  
+];
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+ Isso facilita renderizar tudo automaticamente depois.
 
-## Learn more
+----------
 
-To learn more about developing your project with Expo, look at the following resources:
+#  4. Definir regras visuais (cores dos botões)
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Você cria uma função:
 
-## Join the community
+const  obterCorFundo  = (botao: string): string => {
 
-Join our community of developers creating universal apps.
+ Ela decide:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+-   Vermelho → limpar (`C`)
+-   Verde → resultado (`=`)
+-   Laranja → operadores
+-   Cinza → especiais
+-   Escuro → números
+
+----------
+
+#  5. Criar o componente de botão
+
+Você cria um componente reutilizável:
+
+const  Botao: React.FC<BotaoProps> = ({ titulo, corFundo, corTexto }) => (
+
+👉 Esse botão:
+
+-   Mostra o texto
+-   Aplica estilo
+-   Chama a função quando clicado
+
+onPress={() => lidarComToque(titulo)}
+
+----------
+
+#  6. Criar a lógica dos botões (parte mais importante)
+
+Função principal:
+
+const  lidarComToque  = (valor: string): void => {
+
+Agora você trata cada tipo de botão:
+
+----------
+
+## 6.1 Botão "C" (limpar)
+
+if (valor  ===  'C') {  
+  setExpressao('');  
+  setResultado('0');  
+}
+
+----------
+
+##  6.2 Botão "⌫" (apagar)
+
+else  if (valor  ===  '⌫') {
+
+-   Remove o último caractere
+-   Atualiza display
+
+----------
+
+##  6.3 Botão "=" (calcular)
+
+else  if (valor  ===  '=') {
+
+### Passos:
+
+1.  Substitui símbolos:
+
+.replace(/x/g, '*').replace(/÷/g, '/')
+
+2.  Calcula:
+
+eval(expressaoFormatada)
+
+3.  Atualiza resultado
+4.  Trata erro com `try/catch`
+
+----------
+
+##  6.4 Números e operadores
+
+else {
+
+Aqui você trata:
+
+###  Evitar erros:
+
+-   Não começar com operador (exceto `-`)
+-   Não repetir operadores seguidos
+
+if (operadores.includes(valor)) {
+
+----------
+
+#  7. Montar o layout (interface)
+
+----------
+
+##  7.1 Display
+
+<View  style={styles.displayContainer}>  
+  <Text>{resultado}</Text>  
+</View>
+
+Mostra o número grande no topo
+
+----------
+
+##  7.2 Teclado
+
+{linhasDeBotoes.map((linha) => (
+
+ Para cada linha:
+
+-   Cria uma `View`
+-   Dentro dela cria os botões
+
+{linha.map((botao) => (  
+  <Botao  ...  />  
+))}
+
+----------
+
+#  8. Criar os estilos
+
+Você define:
+
+----------
+
+##  Container
+
+container: {  
+  flex: 1,  
+  backgroundColor: '#000000',  
+}
+
+----------
+
+##  Display
+
+textoDisplay: {  
+  fontSize: 70,  
+  color: '#ffffff',  
+}
+
+----------
+
+##  Botões
+
+botao: {  
+  width: 80,  
+  height: 80,  
+  borderRadius: 40,  
+}
+
+👉 Isso deixa os botões redondos
+
+----------
+
+#  RESUMO FINAL (ordem ideal de construção)
+
+Se você fosse fazer do zero:
+
+1.  Criar o componente (`Index`)
+2.  Criar os estados (`expressao` e `resultado`)
+3.  Definir os botões (`linhasDeBotoes`)
+4.  Criar função de cores (`obterCorFundo`)
+5.  Criar componente `Botao`
+6.  Criar função principal (`lidarComToque`)
+7.  Montar o layout (display + teclado)
+8.  Adicionar estilos
