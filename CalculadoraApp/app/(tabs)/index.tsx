@@ -1,12 +1,7 @@
-import React, { useState } from 'react'; // Importa React e o hook useState para gerenciar estados
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'; // Componentes básicos do React Native
-
-// Interface que define as propriedades do componente Botao
-interface BotaoProps {
-  titulo: string;        // Texto exibido no botão
-  corFundo?: string;     // Cor de fundo opcional
-  corTexto?: string;     // Cor do texto opcional
-}
+import { useState } from 'react'; // Importa React e o hook useState para gerenciar estados
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native'; // Componentes básicos do React Native
+// ABAIXO: O caminho correto para sair de app/(tabs) e chegar em components/
+import Botao from '../../components/botoes';
 
 // Componente principal da calculadora
 export default function Index() {
@@ -30,7 +25,7 @@ export default function Index() {
 
   // Função que define a cor de fundo de cada botão
   const obterCorFundo = (botao: string): string => {
-    if (botao ==='bruno') return 'rgb(124, 0, 83)';
+    if (botao === 'bruno') return 'rgb(124, 0, 83)';
     if (botao === 'AC') return 'rgb(0, 0, 0)'; // Botão limpar
     if (botao === '=') return '#ffe600'; // Botão igual
     if (['+', '-', 'x', '÷', '(', ')'].includes(botao)) return '#000000'; // Operadores
@@ -51,11 +46,11 @@ export default function Index() {
       setExpressao(novaExpressao);
       setResultado(novaExpressao.length > 0 ? novaExpressao : '0'); // Atualiza display
 
-       } else if (valor === 'bruno') {
-        const expressaoFormatada = expressao
-        const resultadoCalculado = eval(expressaoFormatada);
+    } else if (valor === 'bruno') {
+      const expressaoFormatada = expressao
+      const resultadoCalculado = eval(expressaoFormatada);
       setResultado(String("Ϟ🔴 ⚈ ․̫ ⚈ 🔴Joao"));
-        setExpressao(String(resultadoCalculado));
+      setExpressao(String(resultadoCalculado));
 
       // Se clicar em "=", calcula o resultado
     } else if (valor === '=') {
@@ -71,7 +66,7 @@ export default function Index() {
         // Atualiza estados com o resultado
         setResultado(String(resultadoCalculado));
         setExpressao(String(resultadoCalculado));
-        
+
 
       } catch (e) {
         // Caso ocorra erro na conta
@@ -103,22 +98,6 @@ export default function Index() {
     }
   };
 
-  // Componente reutilizável de botão
-  const Botao: React.FC<BotaoProps> = ({
-    titulo,
-    corFundo = '#4b4b4b', // Cor padrão
-    corTexto = '#ee0000'  // Cor padrão do texto
-  }) => (
-    <TouchableOpacity
-      style={[styles.botao, { backgroundColor: corFundo }]} // Aplica estilo e cor
-      onPress={() => lidarComToque(titulo)} // Chama função ao clicar
-    >
-      <Text style={[styles.textoBotao, { color: corTexto }]}>
-        {titulo} {/* Texto do botão */}
-      </Text>
-    </TouchableOpacity>
-  );
-
   // Renderização da interface
   return (
     <SafeAreaView style={styles.container}>
@@ -145,6 +124,7 @@ export default function Index() {
                 key={botao}
                 titulo={botao}
                 corFundo={obterCorFundo(botao)} // Define cor dinamicamente
+                onPress={lidarComToque} // Passa a função de clique
               />
             ))}
 
@@ -185,18 +165,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row', // Botões em linha
     justifyContent: 'space-between', // Espaço entre eles
     marginBottom: 20,
-  },
-
-  botao: {
-    width: 80,
-    height: 80,
-    borderRadius: 50, // Botão redondo
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  textoBotao: {
-    fontSize: 35,
-    fontWeight: '600',
   },
 });
