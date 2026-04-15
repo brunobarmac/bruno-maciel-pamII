@@ -37,8 +37,10 @@ export const styles = StyleSheet.create({
     textAlign: "center",
   },
   image: {
-    width: 250,
-    height: 150,
+    width: 350,
+    height: 250,
+    borderRadius: 10,
+    marginBottom: 20,
   },
   button: {
     backgroundColor: "#007bff",

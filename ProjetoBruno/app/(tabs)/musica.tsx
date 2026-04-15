@@ -1,57 +1,48 @@
 import { styles } from "@/components/styles";
-import { useRoute } from '@react-navigation/native';
-import { Image } from 'expo-image';
 import { Link } from 'expo-router';
-import { useState } from 'react';
-import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-// Função para enviar avaliação
-function enviarAvaliacao() {
-  Alert.alert('Sucesso', 'Avaliação enviada! Obrigado por compartilhar sua opinião.');
-}
-
-// Função principal
 export default function Musica() {
-  const route = useRoute(); // useRoute retorna informações da rota atual
-  const [ritmo, setRitmo] = useState('');
-  const [timbre, setTimbre] = useState('');
-  const [emocao, setEmocao] = useState('');
-  const [arranjo, setArranjo] = useState('');
-  const [instrumentacao, setInstrumentacao] = useState('');
 
+  // A função deve ser declarada AQUI, dentro do componente, mas ANTES do return
+  const enviarAvaliacao = () => {
+    Alert.alert('Sucesso', 'Avaliação enviada com sucesso! Obrigado por compartilhar sua opinião.');
+  };  
+
+  // O return contém APENAS o visual (JSX)
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
+    <ScrollView>
       
       <Text style={styles.title}>Música</Text>
-      <Text style={styles.subtitle}>Gerencie suas preferências</Text>
-      <Text style={styles.subtitle}>Você está na rota: {route.name}</Text>
-      
-      <Image 
-        source={{ uri: 'https://i.scdn.co/image/ab67616d0000b27376672289b62c60a5fafdb481' }} 
-        style={styles.image} 
-      />
-      
-      <Link href="https://open.spotify.com/" asChild>
-        <TouchableOpacity>
-          <Text style={styles.linkSpotify}>Abrir no Spotify</Text>
-        </TouchableOpacity>
-      </Link>
-      
-      <Text style={styles.lyrics}>
-        É, às vezes a vida dá dessas{'\n'}
-        Mas qual é a pressa, meu amor?{'\n'}
-        Nosso futuro não é nenhum mistério{'\n'}
-        Estaremos enterrados em algum cemitério{'\n'}
-        Sei que um dia eu vou morrer{'\n'}
-        Saiba que isso também vale pra você{'\n'}
-        Mas enquanto esse dia não vem{'\n'}
-        Quero passar todos os outros ao seu lado{'\n'}
-        Meu bem, você precisa entender{'\n'}
-        Que a minha vida só se torna tolerável com você{'\n'}
-        Tem que concordar, enquanto nossa hora não chega{'\n'}
-        A gente pode se beijar, pode aproveitar{'\n'}
-        Enquanto nossa hora não chega, a gente pode se beijar
-      </Text>
+           
+      <View style={styles.conteiner}>
+        <Image 
+          source={{ uri: 'https://i.scdn.co/image/ab67616d0000b27376672289b62c60a5fafdb481' }} 
+          style={styles.image} 
+        />
+              
+        <Link href="https://open.spotify.com/" asChild>
+          <TouchableOpacity>
+            <Text style={styles.linkSpotify}>Abrir no Spotify</Text>
+          </TouchableOpacity>
+        </Link>
+        
+        <Text style={styles.lyrics}>
+          É, às vezes a vida dá dessas{'\n'}
+          Mas qual é a pressa, meu amor?{'\n'}
+          Nosso futuro não é nenhum mistério{'\n'}
+          Estaremos enterrados em algum cemitério{'\n'}
+          Sei que um dia eu vou morrer{'\n'}
+          Saiba que isso também vale pra você{'\n'}
+          Mas enquanto esse dia não vem{'\n'}
+          Quero passar todos os outros ao seu lado{'\n'}
+          Meu bem, você precisa entender{'\n'}
+          Que a minha vida só se torna tolerável com você{'\n'}
+          Tem que concordar, enquanto nossa hora não chega{'\n'}
+          A gente pode se beijar, pode aproveitar{'\n'}
+          Enquanto nossa hora não chega, a gente pode se beijar
+        </Text>
+      </View>
 
       <View style={styles.tableContainer}>
         <Text style={styles.title}>Avalie a Música</Text>
@@ -61,8 +52,6 @@ export default function Musica() {
             style={styles.tableInput}
             placeholder="1-10"
             keyboardType="numeric"
-            value={ritmo}
-            onChangeText={setRitmo}
           />
         </View>
         <View style={styles.tableRow}>
@@ -71,8 +60,6 @@ export default function Musica() {
             style={styles.tableInput}
             placeholder="1-10"
             keyboardType="numeric"
-            value={timbre}
-            onChangeText={setTimbre}
           />
         </View>
         <View style={styles.tableRow}>
@@ -81,8 +68,6 @@ export default function Musica() {
             style={styles.tableInput}
             placeholder="1-10"
             keyboardType="numeric"
-            value={emocao}
-            onChangeText={setEmocao}
           />
         </View>
         <View style={styles.tableRow}>
@@ -91,8 +76,6 @@ export default function Musica() {
             style={styles.tableInput}
             placeholder="1-10"
             keyboardType="numeric"
-            value={arranjo}
-            onChangeText={setArranjo}
           />
         </View>
         <View style={styles.tableRow}>
@@ -101,8 +84,6 @@ export default function Musica() {
             style={styles.tableInput}
             placeholder="1-10"
             keyboardType="numeric"
-            value={instrumentacao}
-            onChangeText={setInstrumentacao}
           />
         </View>
       </View>
@@ -129,6 +110,6 @@ export default function Musica() {
         </TouchableOpacity>
       </Link>
       
-    </ScrollView>
-  );
+    </ScrollView> 
+  ); // O parênteses e o ponto e vírgula fecham o return aqui, sem nada depois!
 }
