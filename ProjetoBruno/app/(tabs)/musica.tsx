@@ -4,7 +4,8 @@ import { Alert, Image, ScrollView, Text, TextInput, TouchableOpacity, View } fro
 
 export default function Musica() {
 
-  // A função deve ser declarada AQUI, dentro do componente, mas ANTES do return
+
+ 
   const enviarAvaliacao = () => {
     Alert.alert('Sucesso', 'Avaliação enviada com sucesso! Obrigado por compartilhar sua opinião.');
   };  
@@ -111,5 +112,5 @@ export default function Musica() {
       </Link>
       
     </ScrollView> 
-  ); // O parênteses e o ponto e vírgula fecham o return aqui, sem nada depois!
+  );
 }
